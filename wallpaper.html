@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @font-face {
+            font-family: 'BlackHawk';
+            src: url('font/BlackHawk.otf') format('opentype');
+        }
+
+        @font-face {
+            font-family: 'Tulia bold';
+            src: url('font/Tulia_bold.otf') format('opentype');
+        }
+
+        body {
+            background: linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.15)), url("img/background.png");
+            user-select: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        .banner {
+            position: relative;
+            display: flex;
+            height: 250px;
+            width: 500px;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 42px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        img {
+            position: absolute;
+            height: inherit;
+            width: inherit;
+        }
+
+        #time {
+            z-index: 10;
+            position: relative;
+            padding: 20px;
+            top: 20px;
+            display: flex;
+            font-family: 'BlackHawk', sans-serif;
+            font-size: 12cap;
+            color: #CFAE60;
+            letter-spacing: 5px;
+            text-shadow: 4px 0 #000, -4px 0 #000, 0 4px #000, 0 -4px #000,
+            1px 1px #000, -1px -1px #000, 1px -1px #000, -1px 1px #000;
+        }
+
+        #dayOfTheWeekend, #date {
+            z-index: 10;
+        }
+
+        #dayOfTheWeekend {
+            padding-right: 8px;
+            border-right: 2px solid black;
+        }
+
+        .date {
+            display: flex;
+            font-family: 'Tulia bold', sans-serif;
+            gap: 8px;
+            text-transform: uppercase;
+            font-size: 1.3cap;
+            line-height: 12px;
+        }
+
+    </style>
+    <script type="module">
+        const time = () => {
+            const d = new Date();
+            document.querySelector('#time').innerHTML =
+                `${format(d.getHours())}:${format(d.getMinutes())}:${format(d.getSeconds())}`;
+
+            const locale = navigator.language;
+
+            const dayOfTheWeekend = d.toLocaleDateString(locale, { weekday: 'long' })
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            const day = d.toLocaleString(locale, { day: '2-digit' });
+            const month = d.toLocaleString(locale, { month: 'short' });
+            const year = d.toLocaleString(locale, { year: 'numeric' });
+
+            document.querySelector('#dayOfTheWeekend').innerHTML = dayOfTheWeekend;
+
+            document.querySelector('#date').innerHTML = `${day} -  ${month} - ${year}`;
+        }
+
+        const format = (val) => {
+            return val < 10 ? '0' + val : val;
+        }
+
+        time();
+        setInterval(time, 1000);
+    </script>
+    <title>Wallpaper</title>
+</head>
+<body>
+    <div class="banner">
+        <img src="img/banner.png" draggable="false" alt="banner">
+        <div class="wrapper">
+            <span id="time">00:00:00</span>
+            <div class="date">
+                <span id="dayOfTheWeekend"></span>
+                <span id="date"></span>
+            </div>
+        </div>
+    </div>
+    <!-- Hecho por: Cesar Bolaño, 2025 -->
+    <!-- https://github.com/cesarbramos -->
+</body>
+</html>
